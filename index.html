@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="./starter-files/index.css" />
+    <script src="/index.js" defer type="module"></script>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="todos-container">
+        <div id="to-do" class="section">
+          <h6>To DO</h6>
+
+          <div class="items-list">
+            <div id="newItem" class="item-add">
+              <h5>+ Add new todo</h5>
+            </div>
+            <!-- <div class="item" draggable="true">
+              <h5>Create todos: <span>1</span></h5>
+              <p>
+                Click the above "add new tods" after adding them you can drag
+                and drop each item.
+              </p>
+            </div> -->
+          </div>
+        </div>
+        <div id="in-progress" class="section">
+          <h6>In progress</h6>
+
+          <div class="items-list"></div>
+        </div>
+        <div id="in-testing" class="section">
+          <h6>In testing</h6>
+
+          <div class="items-list"></div>
+        </div>
+        <div id="done" class="section">
+          <h6>Done</h6>
+
+          <div class="items-list"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

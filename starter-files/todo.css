@@ -1,0 +1,123 @@
+:root {
+  --background-color: linear-gradient(
+    90deg,
+    rgb(42, 123, 155) 0%,
+    rgb(87, 186, 199) 49%,
+    rgba(83, 237, 196, 1) 97%
+  );
+  --section-background: #2b1d52;
+  --gray-bg-color: #f5f6f8;
+  --white-bg-color: #ffffff;
+  --gray-border-color: #e8e8ea;
+  --text-default-color: #2b2f38;
+  --text-muted-color: #787d82;
+  --text-white-color: #fff;
+  --add-Todo-color: #53edc4;
+  --border-radius: 22px;
+}
+
+h6 {
+  margin: 0;
+}
+
+body,
+html {
+  color: var(--text-default-color);
+  background: var(--background-color);
+}
+
+.todos-container {
+  margin-top: 20px;
+  display: grid;
+  gap: 1em;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.section {
+  background-color: var(--section-background);
+  border-radius: var(--border-radius);
+  padding: 0.5em;
+}
+
+.section h6 {
+  color: var(--text-white-color);
+  padding: 0.5em 0;
+  font-size: 25px;
+}
+
+.section h4 {
+  /* padding: 6px 8px; */
+  background-color: var(--gray-bg-color);
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.item,
+.item-add {
+  border: 1px solid var(--gray-bg-color);
+  background-color: var(--white-bg-color);
+  border-radius: var(--border-radius);
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  padding: 0.5em;
+}
+
+.item h5 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item .assignee {
+  display: flex;
+  justify-content: flex-end;
+}
+.item .assignee span {
+  border-radius: 50%;
+  padding: 0.5em;
+  width: 4ch;
+  height: 4ch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--gray-bg-color);
+}
+
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.item-add {
+  cursor: pointer;
+}
+.item-add form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.form-control {
+  border: none;
+  outline: none;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.btn {
+  background: var(--add-Todo-color);
+  border: none;
+}
+
+.item.dragging {
+  opacity: 0.5;
+  border: 2px dashed #0d6efd; /* Example */
+}
+
+.section.drag-over {
+  box-shadow: 0 0 10px rgba(0, 0, 255, 0.5); /* Example */
+  background-color: #e6f0ff; /* Example */
+}
