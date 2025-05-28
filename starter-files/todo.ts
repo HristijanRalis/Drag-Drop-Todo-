@@ -67,7 +67,7 @@ newItem.addEventListener("click", ()=>{
         }
 
         todos.push(newTodo);
-     
+        saveTodosToStorage();
         renderNewTodo(newTodo);
         form.remove();
 
@@ -169,8 +169,28 @@ columnSection.forEach((sectionElement) => {
                 const todo = todos.find((t) => t.id === todoId);
                 if(todo){
                     todo.status = sectionElement.id as ToDoStatus;
+                saveTodosToStorage(); 
                 }
             }
         }
     })
 })
+
+// LOCAL STORAGE 
+
+function saveTodosToStorage (){
+    localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+function loadTodosFromStorage(){
+    const stored = localStorage.getItem("todos");
+    if(stored){
+        const parsed: TODO[] = JSON.parse(stored);
+        parsed.forEach((todo) =>{
+            todos.push(todo);
+            renderNewTodo(todo);
+        })
+    }
+}
+
+loadTodosFromStorage();

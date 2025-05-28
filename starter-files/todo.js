@@ -34,8 +34,7 @@ newItem.addEventListener("click", function () {
             status: "to-do",
         };
         todos.push(newTodo);
-        console.log("Todo created:", newTodo);
-        console.log("Current todos array:", todos);
+        saveTodosToStorage();
         renderNewTodo(newTodo);
         form.remove();
         if (addText) {
@@ -108,11 +107,26 @@ columnSection.forEach(function (sectionElement) {
                 targetItemList.appendChild(selectedItemElement);
                 var todoId_1 = selectedItemElement.id;
                 var todo = todos.find(function (t) { return t.id === todoId_1; });
-                console.log("All todo IDs:", todos.map(function (t) { return t.id; }));
                 if (todo) {
                     todo.status = sectionElement.id;
+                    saveTodosToStorage();
                 }
             }
         }
     });
 });
+// LOCAL STORAGE 
+function saveTodosToStorage() {
+    localStorage.setItem("todos", JSON.stringify(todos));
+}
+function loadTodosFromStorage() {
+    var stored = localStorage.getItem("todos");
+    if (stored) {
+        var parsed = JSON.parse(stored);
+        parsed.forEach(function (todo) {
+            todos.push(todo);
+            renderNewTodo(todo);
+        });
+    }
+}
+loadTodosFromStorage();
