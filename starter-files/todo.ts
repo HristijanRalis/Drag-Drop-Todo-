@@ -3,7 +3,7 @@
 // Creating structure with interface
 
 interface TODO {
-    id: number;
+    id: string;
     title: string;
     points: number;
     description: string;
@@ -48,6 +48,34 @@ newItem.addEventListener("click", ()=>{
         const points = Number(formData.get("points"));
         const description = formData.get("description") as string;
 
-    
-    })
-})
+        const newTodo: TODO = {
+            id: generateUniqueIdForTodo(),
+            title,
+            points,
+            description,
+            status: "to-do",
+        }
+
+        todos.push(newTodo);
+        renderTodo(newTodo);
+        form.remove();
+    });
+
+    newItem.appendChild(form);
+});
+
+function renderTodo (todo: TODO){
+    const column = document.querySelector(`#${todo.status} .items-list`) as HTMLElement  | null;
+
+    if(!column) {
+        console.log(`Column list for status "${todo.status} not found!`);
+        return;
+    }
+
+    const item = document.createElement("div");
+    item.className ="item";
+    item.draggable = true;
+    item.id = todo.id;
+
+
+}
