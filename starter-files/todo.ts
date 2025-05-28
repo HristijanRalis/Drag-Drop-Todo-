@@ -28,6 +28,11 @@ const newItem = document.getElementById("newItem") as HTMLDivElement;
 newItem.addEventListener("click", ()=>{
     if(document.getElementById(formId)) return;
 
+    const addText = document.querySelector("h5") as HTMLHeadElement | null;
+    if(addText){
+        addText.classList.add("d-done");
+    }
+
     const form = document.createElement('form');
 
     form.id = formId;
@@ -48,6 +53,11 @@ newItem.addEventListener("click", ()=>{
         const points = Number(formData.get("points"));
         const description = formData.get("description") as string;
 
+        if(!title){
+            alert("Title is required!");
+            return;
+        }
+
         const newTodo: TODO = {
             id: generateUniqueIdForTodo(),
             title,
@@ -57,14 +67,19 @@ newItem.addEventListener("click", ()=>{
         }
 
         todos.push(newTodo);
-        renderTodo(newTodo);
+     
+        renderNewTodo(newTodo);
         form.remove();
+
+        if(addText){
+            addText.classList.remove("d-done");
+        }
     });
 
     newItem.appendChild(form);
 });
 
-function renderTodo (todo: TODO){
+function renderNewTodo (todo: TODO){
     const column = document.querySelector(`#${todo.status} .items-list`) as HTMLElement  | null;
 
     if(!column) {
@@ -83,7 +98,79 @@ function renderTodo (todo: TODO){
         <div class="assignee"><span>${todo.title ? todo.title[0].toUpperCase() : 'N'}</span></div>
     `;
 
+    item.addEventListener("dragstart", handleItemDragStart);
+    item.addEventListener("dragend", handleItemDragEnd);
+
     column.appendChild(item);
 
 
 }
+
+let selectedItemElement: HTMLElement | null = null;
+
+
+// FUNCTION for handingItemDragStart
+function handleItemDragStart(event: DragEvent){
+    const target = event.target as HTMLElement;
+    if(target.classList.contains("item")){
+        selectedItemElement = target;
+        event.dataTransfer!.setData("text/plain",target.id);
+        event.dataTransfer!.effectAllowed = "move";
+        setTimeout(() => target.classList.add("dragging"), 0);
+    }
+}
+
+// FUNCTION for handingItemDragEnd
+
+function handleItemDragEnd(event: DragEvent){
+    const target = event.target as HTMLElement;
+    if(target.classList.contains("item")){
+        target.classList.remove("dragging");
+    }
+
+    document.querySelectorAll(`.section.drag-cover`).forEach(s => s.classList.remove('drag-over'));
+    selectedItemElement = null;
+}
+
+const columnSection = document.querySelectorAll(".section") as NodeListOf<HTMLElement>;
+
+
+// dragover EVENT FOR ALL SECTION
+columnSection.forEach((sectionElement) => {
+    sectionElement.addEventListener("dragover", (e: DragEvent) => {
+        e.preventDefault();
+        if(selectedItemElement && e.dataTransfer){
+            e.dataTransfer.dropEffect = "move";
+        }
+    });
+
+    sectionElement.addEventListener("dragenter", (e: DragEvent)=>{
+        e.preventDefault();
+        if(selectedItemElement){
+            sectionElement.classList.add("drag-over");
+        }
+    });
+
+    sectionElement.addEventListener("dragleave", (e: DragEvent) =>{
+        if(e.relatedTarget === null || !sectionElement.contains(e.relatedTarget as Node)){
+            sectionElement.classList.remove("drag-over");
+        }
+    });
+
+    sectionElement.addEventListener("drop", (e: DragEvent)=>{
+        e.preventDefault();
+        sectionElement.classList.remove("drag-over");
+
+        if(selectedItemElement){
+            const targetItemList = sectionElement.querySelector(".items-list") as HTMLElement | null;
+            if(targetItemList){
+                targetItemList.appendChild(selectedItemElement);
+                const todoId = selectedItemElement.id;
+                const todo = todos.find((t) => t.id === todoId);
+                if(todo){
+                    todo.status = sectionElement.id as ToDoStatus;
+                }
+            }
+        }
+    })
+})
