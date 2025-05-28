@@ -26,7 +26,7 @@ const  generateUniqueIdForTodo = () => `todo-${Math.random().toString(36).substr
 const newItem = document.getElementById("newItem") as HTMLDivElement;
 
 newItem.addEventListener("click", ()=>{
-    if(document.getElementById("formId")) return;
+    if(document.getElementById(formId)) return;
 
     const form = document.createElement('form');
 
@@ -76,6 +76,14 @@ function renderTodo (todo: TODO){
     item.className ="item";
     item.draggable = true;
     item.id = todo.id;
+
+    item.innerHTML = `
+        <h5>${todo.title} <span> ${todo.points > 0 ? todo.points : ''}</span></h5>
+        ${todo.description ? `<p>${todo.description}</p>` : ''}
+        <div class="assignee"><span>${todo.title ? todo.title[0].toUpperCase() : 'N'}</span></div>
+    `;
+
+    column.appendChild(item);
 
 
 }
